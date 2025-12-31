@@ -11,6 +11,7 @@ class UserProfileManager(BaseUserManager): # base object manager that comes with
         user.save(using=self._db)
         return user
 
+    # for when createsuperuser is called
     def create_superuser(self, email, name, password):
         user = self.create_user(email, name, password)
 
