@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
-from Recipe.views import ListApiView
+from Recipe import views
 
+router = DefaultRouter()
+router.register('view-set', views.BaseViewSet, basename='view-set')
 urlpatterns = [
-    path('list', ListApiView.as_view())
+    path('list', views.ListApiView.as_view()),
+    path('', include(router.urls))
 ]
