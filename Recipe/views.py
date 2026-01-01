@@ -3,11 +3,9 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
 
-from Recipe import serializers
+from Recipe import serializers, models
 
-
-# Create your views here.
-
+''' for demonstration only '''
 class ListApiView(APIView):
     # specify what inputs to expect for methods that accept data
     serializer_class = serializers.ListSerializer
@@ -38,7 +36,7 @@ class ListApiView(APIView):
     def delete(self, request, pk=None):
         return Response({'method': 'delete'})
 
-
+''' for demonstration only '''
 class BaseViewSet(viewsets.ViewSet):
     ''' for typical actions performed with APIs '''
 
@@ -68,3 +66,7 @@ class BaseViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         return Response({'method': 'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ProfileSerializer
+    queryset = models.UserProfile.objects.all()

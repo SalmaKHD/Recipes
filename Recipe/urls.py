@@ -5,7 +5,9 @@ from Recipe import views
 
 router = DefaultRouter()
 router.register('view-set', views.BaseViewSet, basename='view-set')
+router.register('profile-set', views.UserProfileViewSet)
 urlpatterns = [
     path('list', views.ListApiView.as_view()),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+
 ]
