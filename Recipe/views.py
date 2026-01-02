@@ -1,6 +1,8 @@
 from rest_framework import viewsets, filters
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
 
@@ -75,4 +77,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.UpdateOwnProfile,) # to check if user has permission to perform action
     filter_backends = (filters.SearchFilter,) # make Python understand this is a tuple
     search_fields = ('name', 'email',)
+
+class UserLoginApiView(ObtainAuthToken):
+    # add token functionality in browsable apis
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
