@@ -30,5 +30,16 @@ class ProfileSerializer(ModelSerializer):
                 name=validated_data['name']
             )
 
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProfileFeedItem
+        # id created by default for each row
+        # user_profile is a foreign key
+        fields = ('id', 'user_profile', 'status_text', 'created_on')
+        extra_kwargs = {
+            'user_profile': {'read_only': True}
+        }
+
+
 
 

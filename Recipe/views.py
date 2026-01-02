@@ -82,3 +82,17 @@ class UserLoginApiView(ObtainAuthToken):
     # add token functionality in browsable apis
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
+class ProfileFeedItemView(viewsets.ModelViewSet):
+    serializer_class = serializers.ProfileFeedItemSerializer
+    # set auth token
+    authentication_classes = (TokenAuthentication,)
+    # obtain model manager
+    queryset = models.ProfileFeedItem.objects.all()
+    # make sure for put,patch, delete methods, the same user can make changes only
+    # make sure authenticated users can make requests
+    permission_classes = (permissions.UpdateOwnStatus, IsAuthenticated)
+
+    # override create function
+    def perform_create(self, serializer):
+        # obtain user from request and pass as user_profile to ProfileFeedItem model
+        serializer.save(user_profile=self.request.user) # user comes from django.contrib.auth
