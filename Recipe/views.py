@@ -1,9 +1,10 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
 
-from Recipe import serializers, models
+from Recipe import serializers, models, permissions
 
 ''' for demonstration only '''
 class ListApiView(APIView):
@@ -70,3 +71,8 @@ class BaseViewSet(viewsets.ViewSet):
 class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ProfileSerializer
     queryset = models.UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,) # add authentication to api
+    permission_classes = (permissions.UpdateOwnProfile,) # to check if user has permission to perform action
+    filter_backends = (filters.SearchFilter,) # make Python understand this is a tuple
+    search_fields = ('name', 'email',)
+
